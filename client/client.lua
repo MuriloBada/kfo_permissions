@@ -87,24 +87,12 @@ end)
 
 RegisterCommand("status+", function (source, args, rawCommand)
     local _source = source
-    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            TriggerServerEvent('redemrp_status:AddAmount', 100 , 100)
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
-        end
-    end)
+    TriggerServerEvent('redemrp_status:AddAmount', 100 , 100)
 end)
 
 RegisterCommand("status-", function (source, args, rawCommand)
     local _source = source
-    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            TriggerServerEvent('redemrp_status:AddAmount', -100 , -100)
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
-        end
-    end)
+    TriggerServerEvent('redemrp_status:AddAmount', -100 , -100)
 end)
 
 RegisterCommand('tpw', function (source,args,rawCommand)
