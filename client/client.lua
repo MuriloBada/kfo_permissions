@@ -47,79 +47,134 @@ end
 
 --___________________________________[COMMANDS]__________________________________
 RegisterCommand("rotate",function()
-    local pped = PlayerPedId()
-    local h = GetEntityRotation(pped)
-    print(h)
+    local _source = source
+    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            local pped = PlayerPedId()
+            local h = GetEntityRotation(pped)
+            print(h)
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
 end)
 
 RegisterCommand('dv', function(source, args, rawCommand)
-	local ped = PlayerPedId()
-	local pedVector = GetEntityCoords(ped)
+    local _source = source
+    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            local ped = PlayerPedId()
+            local pedVector = GetEntityCoords(ped)
 
-	local cameraRotation = GetGameplayCamRot()
-	local cameraCoord = GetGameplayCamCoord()
-	local direction = RotationToDirection(cameraRotation)
-	local lastCoords = vec3(cameraCoord.x + direction.x * 10.0, cameraCoord.y + direction.y * 10.0, cameraCoord.z + direction.z * 10.0)
+            local cameraRotation = GetGameplayCamRot()
+            local cameraCoord = GetGameplayCamCoord()
+            local direction = RotationToDirection(cameraRotation)
+            local lastCoords = vec3(cameraCoord.x + direction.x * 10.0, cameraCoord.y + direction.y * 10.0, cameraCoord.z + direction.z * 10.0)
 
-	local rayHandle = StartShapeTestRay(cameraCoord, lastCoords, -1, ped, 0)
-	local _, hit, endCoords, _, entityHit = GetShapeTestResult(rayHandle)
+            local rayHandle = StartShapeTestRay(cameraCoord, lastCoords, -1, ped, 0)
+            local _, hit, endCoords, _, entityHit = GetShapeTestResult(rayHandle)
 
-	if hit == 1 and entityHit ~= 0 then
-        SetEntityAsMissionEntity(entityHit, true, true)
+            if hit == 1 and entityHit ~= 0 then
+                SetEntityAsMissionEntity(entityHit, true, true)
 
-        DeleteEntity(entityHit)
-	end
+                DeleteEntity(entityHit)
+            end
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
 end)
 
 RegisterCommand("status+", function (source, args, rawCommand)
-    TriggerServerEvent('redemrp_status:AddAmount', 100 , 100)
+    local _source = source
+    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            TriggerServerEvent('redemrp_status:AddAmount', 100 , 100)
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
 end)
 
 RegisterCommand("status-", function (source, args, rawCommand)
-    TriggerServerEvent('redemrp_status:AddAmount', -100 , -100)
+    local _source = source
+    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            TriggerServerEvent('redemrp_status:AddAmount', -100 , -100)
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
 end)
 
 RegisterCommand('tpw', function (source,args,rawCommand)
-    local ped = PlayerPedId()
-    local waypoint = GetWaypointCoords(ped) 
-    SetEntityCoords(ped, waypoint)
+    local _source = source
+    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            local ped = PlayerPedId()
+            local waypoint = GetWaypointCoords(ped) 
+            SetEntityCoords(ped, waypoint)
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
 end)
 
 RegisterCommand('tpcds', function (source, args, rawCommand)
-    local x = args[1]
-    local y = args[2]
-    local z = args[3]
-    print(x,y,z)
-    local ped = PlayerPedId()
-    SetEntityCoords(ped, tonumber(x), tonumber(y), tonumber(z))
+    local _source = source
+    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            local x = args[1]
+            local y = args[2]
+            local z = args[3]
+            print(x,y,z)
+            local ped = PlayerPedId()
+            SetEntityCoords(ped, tonumber(x), tonumber(y), tonumber(z))
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
 end)
 
 RegisterCommand('tpcds2', function (source, args, rawCommand)
-    local x = args[3]
-    local y = args[6]
-    local z = args[9]
-    
-    local ped = PlayerPedId()
-    SetEntityCoords(ped, tonumber(x), tonumber(y), tonumber(z))
+    local _source = source
+    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            local x = args[3]
+            local y = args[6]
+            local z = args[9]
+            
+            local ped = PlayerPedId()
+            SetEntityCoords(ped, tonumber(x), tonumber(y), tonumber(z))
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
 end)
 
 RegisterCommand('veh', function(source, args, rawCommand)
-    
-    local car = GetHashKey(args[1])
+    local _source = source
+    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            local car = GetHashKey(args[1])
 
-    RequestModel(car)
-    while not HasModelLoaded(car) do
-        RequestModel(car)
-        Citizen.Wait(0)
-    end
+            RequestModel(car)
+            while not HasModelLoaded(car) do
+                RequestModel(car)
+                Citizen.Wait(0)
+            end
 
-    local rotate = GetEntityRotation(PlayerPedId())
+            local rotate = GetEntityRotation(PlayerPedId())
 
-    local x,y,z = table.unpack(GetEntityCoords(PlayerPedId()))
-    vehicle2 = CreateVehicle(car, x, y, z, rotate[3], true, false)
-    SetEntityAsMissionEntity(vehicle2, true, true)
-    SetVehicleOnGroundProperly(vehicle2)
-    SetModelAsNoLongerNeeded(car)
+            local x,y,z = table.unpack(GetEntityCoords(PlayerPedId()))
+            vehicle2 = CreateVehicle(car, x, y, z, rotate[3], true, false)
+            SetEntityAsMissionEntity(vehicle2, true, true)
+            SetVehicleOnGroundProperly(vehicle2)
+            SetModelAsNoLongerNeeded(car)
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
 end)
 --______________________________________________________________________________
 
@@ -127,33 +182,40 @@ end)
 --____________________________________[EVENTS]___________________________________
 RegisterNetEvent("Spawnped")
 AddEventHandler("Spawnped",function(pedModel, outfit)
-    local pedModelHash = GetHashKey(pedModel)
-    if not IsModelValid(pedModelHash) then
-        print("model is not valid")
-        return
-    end
+    local _source = source
+    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            local pedModelHash = GetHashKey(pedModel)
+            if not IsModelValid(pedModelHash) then
+                print("model is not valid")
+                return
+            end
 
-    if not HasModelLoaded(pedModelHash) then
-        RequestModel(pedModelHash)
-        while not HasModelLoaded(pedModelHash) do
-            Citizen.Wait(10)
+            if not HasModelLoaded(pedModelHash) then
+                RequestModel(pedModelHash)
+                while not HasModelLoaded(pedModelHash) do
+                    Citizen.Wait(10)
+                end
+            end
+
+            local ped = CreatePed(pedModelHash, GetEntityCoords(PlayerPedId()), GetEntityHeading(PlayerPedId()), 1, 0)
+            Citizen.InvokeNative(0x283978A15512B2FE, ped, true)
+            Citizen.InvokeNative(0x58A850EAEE20FAA3, ped)
+
+            SetEntityAsMissionEntity(ped)
+
+            SetPedAsGroupMember(ped, GetDefaultRelationshipGroupHash(pedModelHash))
+
+            Citizen.InvokeNative(0xC80A74AC829DDD92, ped, GetDefaultRelationshipGroupHash(pedModelHash))
+
+            if outfit ~= nil then
+                SetPedOutfitPreset(ped, tonumber(outfit))
+                Citizen.InvokeNative(0x7528720101A807A5, ped, 2)
+            end
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
         end
-    end
-
-    local ped = CreatePed(pedModelHash, GetEntityCoords(PlayerPedId()), GetEntityHeading(PlayerPedId()), 1, 0)
-    Citizen.InvokeNative(0x283978A15512B2FE, ped, true)
-    Citizen.InvokeNative(0x58A850EAEE20FAA3, ped)
-
-    SetEntityAsMissionEntity(ped)
-
-    SetPedAsGroupMember(ped, GetDefaultRelationshipGroupHash(pedModelHash))
-
-    Citizen.InvokeNative(0xC80A74AC829DDD92, ped, GetDefaultRelationshipGroupHash(pedModelHash))
-
-    if outfit ~= nil then
-        SetPedOutfitPreset(ped, tonumber(outfit))
-        Citizen.InvokeNative(0x7528720101A807A5, ped, 2)
-    end
+    end)
 end)
 
 RegisterNetEvent('printCharID')

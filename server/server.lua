@@ -136,7 +136,6 @@ end)
 RegisterCommand("nc", function(source, args, rawCommand)
     local _source = source
     TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        
         if user.getGroup() == 'superadmin' and _source ~= 0 then
             TriggerClientEvent('Noclip', source)
         else
@@ -165,8 +164,36 @@ end)
 
 RegisterCommand('tp', function(source, args)
     local _source = source
+    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            if tonumber(args[1]) > 0 then
+                local targetPed = GetPlayerPed(args[1])
+                local ped = GetPlayerPed(_source)
+                local x,y,z = GetEntityCoords(targetPed)
+                SetEntityCoords(ped, x, y, z, false, false, false, false)
+            else
+                TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /tp [id].", 7000)
+            end
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
 end)
 
 RegisterCommand('tptome', function(source, args)
     local _source = source
+    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            if tonumber(args[1]) > 0 then
+                local targetPed = GetPlayerPed(args[1])
+                local ped = GetPlayerPed(_source)
+                local x,y,z = GetEntityCoords(ped)
+                SetEntityCoords(targetPed, x, y, z, false, false, false, false)
+            else
+                TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /tp [id].", 7000)
+            end
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
 end)
