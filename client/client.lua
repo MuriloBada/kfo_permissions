@@ -119,7 +119,7 @@ AddEventHandler("Spawnped",function(pedModel, outfit)
 end)
 
 
-
+-- TPS
 RegisterNetEvent("tpwaypoint")
 AddEventHandler("tpwaypoint",function(pedModel, outfit)
     local ply = PlayerPedId()
