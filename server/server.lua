@@ -197,3 +197,48 @@ RegisterCommand('tptome', function(source, args)
         end
     end)
 end)
+
+
+RegisterCommand('tpw', function(source, args)
+    local _source = source
+    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            TriggerClientEvent('tpwaypoint', source)
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
+end)
+
+
+RegisterCommand('tpcds', function(source, args)
+    local _source = source
+    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            local ped = GetPlayerPed(_source)
+            local x = args[1]
+            local y = args[2]
+            local z = args[3]
+
+            SetEntityCoords(ped, x, y, z, false, false, false, false)
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
+end)
+
+RegisterCommand('tpcds,', function(source, args)
+    local _source = source
+    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
+        if user.getGroup() == 'superadmin' and _source ~= 0 then
+            local ped = GetPlayerPed(_source)
+            local x = args[3]
+            local y = args[6]
+            local z = args[9]
+
+            SetEntityCoords(ped, x, y, z, false, false, false, false)
+        else
+            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+        end
+    end)
+end)

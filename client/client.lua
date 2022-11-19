@@ -95,50 +95,53 @@ RegisterCommand("status-", function (source, args, rawCommand)
     TriggerServerEvent('redemrp_status:AddAmount', -100 , -100)
 end)
 
-RegisterCommand('tpw', function (source,args,rawCommand)
-    local _source = source
-    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            local ped = PlayerPedId()
-            local waypoint = GetWaypointCoords(ped) 
-            SetEntityCoords(ped, waypoint)
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+
+
+RegisterNetEvent("Spawnped")
+AddEventHandler("Spawnped",function(pedModel, outfit)
+    local ply = PlayerPedId()
+    if DoesEntityExist(ply) then
+        local WaypointV = GetWaypointCoords()
+
+        for height = 1, 1000 do
+            SetEntityCoords(ply, WaypointV.x, WaypointV.y, height + 0.0)
+
+            local foundground, groundZ, normal = GetGroundZAndNormalFor_3dCoord(WaypointV.x, WaypointV.y, height + 0.0)
+            if foundground then
+                SetEntityCoords(ply, WaypointV.x, WaypointV.y, height + 0.0)
+                break
+            end
+            Wait(25)
         end
-    end)
+    else
+        print("kek you dont exist")
+    end
 end)
 
-RegisterCommand('tpcds', function (source, args, rawCommand)
-    local _source = source
-    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            local x = args[1]
-            local y = args[2]
-            local z = args[3]
-            print(x,y,z)
-            local ped = PlayerPedId()
-            SetEntityCoords(ped, tonumber(x), tonumber(y), tonumber(z))
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+
+
+RegisterNetEvent("tpwaypoint")
+AddEventHandler("tpwaypoint",function(pedModel, outfit)
+    local ply = PlayerPedId()
+    if DoesEntityExist(ply) then
+        local WaypointV = GetWaypointCoords()
+
+        for height = 1, 1000 do
+            SetEntityCoords(ply, WaypointV.x, WaypointV.y, height + 0.0)
+
+            local foundground, groundZ, normal = GetGroundZAndNormalFor_3dCoord(WaypointV.x, WaypointV.y, height + 0.0)
+            if foundground then
+                SetEntityCoords(ply, WaypointV.x, WaypointV.y, height + 0.0)
+                break
+            end
+            Wait(25)
         end
-    end)
+    else
+        print("ERRO")
+    end
 end)
 
-RegisterCommand('tpcds2', function (source, args, rawCommand)
-    local _source = source
-    TriggerServerEvent('redemrp:getPlayerFromId', function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            local x = args[3]
-            local y = args[6]
-            local z = args[9]
-            
-            local ped = PlayerPedId()
-            SetEntityCoords(ped, tonumber(x), tonumber(y), tonumber(z))
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
-        end
-    end)
-end)
+
 
 RegisterCommand('veh', function(source, args, rawCommand)
     local _source = source
