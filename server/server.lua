@@ -59,9 +59,8 @@ RegisterCommand('rmjob', function(source, args)
 end)
 
 
-RegisterServerEvent('kfo_permissions:checkPlayerJob')
-AddEventHandler('kfo_permissions:checkPlayerJob', function(job)
-    local _source = source
+exports('checkPlayerJob', function(_source, job)
+    local hasPerm = promise.new()
     local identifier, charid
     TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
         identifier = user.getIdentifier()
@@ -69,15 +68,15 @@ AddEventHandler('kfo_permissions:checkPlayerJob', function(job)
     end)
 
     local result1 = getPlayerPermanentID(identifier, charid)
-
     if result1 then
         local result2 = getPlayerPermission(result1[1].id, job)
-        if result2[1] then 
-            TriggerClientEvent('handlePermissionCheck', _source, true)
+        if result2[1] then
+            hasPerm:resolve(true) 
         else 
-            TriggerClientEvent('handlePermissionCheck', _source, false)
+            hasPerm:resolve(false) 
         end
     end
+    return Citizen.Await(hasPerm)
 end)
 
 function getPlayerPermanentID(identifier, charid)
