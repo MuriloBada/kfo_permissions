@@ -59,13 +59,8 @@ RegisterCommand('rmjob', function(source, args)
 end)
 
 
-exports('checkPlayerJob', function(_source, job)
+exports('checkPlayerJob', function(job, identifier, charid)
     local hasPerm = promise.new()
-    local identifier, charid
-    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        identifier = user.getIdentifier()
-        charid = user.getSessionVar('charid')
-    end)
 
     local result1 = getPlayerPermanentID(identifier, charid)
     if result1 then
