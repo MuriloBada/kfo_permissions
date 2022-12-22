@@ -17,6 +17,7 @@ RegisterCommand('addjob', function(source, args)
                         MySQL.Async.execute('INSERT INTO kfo_permissions (idplayer, permission, perm_lv) VALUES(@idplayer, @permission, @perm_lv)', params)
                         TriggerClientEvent('redem_roleplay:Tip', _source, 'ID: '..args[1]..' setado com sucesso como '..args[2]..' rank '..args[3], 7000)
                     end
+                    TriggerClientEvent('kfo_permissions:reloadPermission', _source)
                 end)
                 
             else
@@ -48,6 +49,7 @@ RegisterCommand('rmjob', function(source, args)
             if args[1] and args[2] then
                 MySQL.Async.fetchAll('DELETE FROM kfo_permissions WHERE idplayer = @idplayer AND permission = @permission', {idplayer = tonumber(args[1]), permission = args[2]})
                 TriggerClientEvent('redem_roleplay:Tip', _source, 'ID: '..args[1]..' foi removido com sucesso do set '..args[2], 7000)
+                TriggerClientEvent('kfo_permissions:reloadPermission', _source)
 
             else
                 TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /rmjob [id] [NomePermissao]", 7000)
