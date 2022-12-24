@@ -171,6 +171,7 @@ end)
 
 
 --____________________________________[EVENTS]___________________________________
+RegisterNetEvent('kfo_permissions:reloadPermission')
 RegisterNetEvent("Spawnped")
 AddEventHandler("Spawnped",function(pedModel, outfit)
     local _source = source

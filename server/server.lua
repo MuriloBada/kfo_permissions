@@ -1,4 +1,5 @@
 local hasJob
+
 RegisterCommand('addjob', function(source, args)
     local _source = source
     TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
