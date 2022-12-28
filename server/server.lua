@@ -61,10 +61,13 @@ RegisterCommand('rmjob', function(source, args)
     end)
 end)
 
+RegisterNetEvent('kfo_permissions:getSourceFromId')
+AddEventHandler('kfo_permissions:getSourceFromId', function()
+end)
+
 
 exports('checkPlayerJob', function(job, identifier, charid)
     local hasPerm = promise.new()
-
     local result1 = getPlayerPermanentID(identifier, charid)
     if result1 then
         local result2 = getPlayerPermission(result1[1].id, job)
@@ -76,6 +79,15 @@ exports('checkPlayerJob', function(job, identifier, charid)
     end
     return Citizen.Await(hasPerm)
 end)
+
+exports('getPlayerVariables', function(playerID) 
+    local result = MySQL.Async.fetchAll('SELECT * FROM CHARACTERS WHERE ID = @playerID', {playerID = playerID})
+    if result[1] then
+        return result[1].charid, result[1].identifier
+    end
+end)
+
+
 
 function getPlayerPermanentID(identifier, charid)
    return MySQL.Sync.fetchAll('SELECT * FROM CHARACTERS WHERE identifier=@identifier and characterid = @charid', {
@@ -91,92 +103,7 @@ function getPlayerPermission(id, permission)
     })
 end
 
-RegisterCommand('charusuario', function(source, args)
-    local _source = source
-    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        if args[1] then
-            MySQL.Async.fetchAll("SELECT * FROM characters WHERE identifier = @identifier", {identifier = args[1]}, function(result)
-                if result[1] then
-                    TriggerClientEvent('redem_roleplay:Tip', _source, 'Verifique seu F8.', 7000)
-                    TriggerClientEvent('printCharID', _source, result)
-                end
-            end)
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /charusuario [hex]", 7000)
-        end
-    end)
-end)
-
-
-RegisterCommand('setped', function(source, args)
-    local _source = source
-    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            if args[1] and args[2] and args[3] then
-                MySQL.Async.fetchAll("SELECT * FROM skins WHERE identifier = @identifier and charid = @charid", {identifier = args[1], charid = tonumber(args[3])}, function(result)
-                    if result[1] then
-                        local skin = json.decode(result[1].skin)
-                        skin.model = args[2]
-                        MySQL.Async.execute("UPDATE skins SET skin = @skin where identifier = @identifier and charid = @charid", {skin = json.encode(skin), identifier = args[1], charid = tonumber(args[3])})
-                    end
-                end)
-                TriggerClientEvent('redem_roleplay:Tip', _source, "Ped "..args[2]..' setado com sucesso para '..args[1]..' charID: ['..args[3]..']', 7000)
-            else
-                TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /setped [hex] [nome_ped] [charID] ", 7000)
-            end
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
-        end
-    end)
-end)
-
-RegisterCommand("nc", function(source, args, rawCommand)
-    local _source = source
-    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            TriggerClientEvent('Noclip', source)
-        else
-            TriggerClientEvent('nopermissionnotify', source)
-        end
-    end)
-end)
-
-RegisterCommand("spawnped",function(source, args, rawCommand)
-    local _source = source
-    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            if #args >= 1 then
-                if args[2] ~= nil then
-                    TriggerClientEvent("Spawnped", source, args[1], tonumber(args[2]))
-                    
-                else
-                    TriggerClientEvent("Spawnped", source, args[1])
-                end
-            end
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
-        end
-    end)
-end)
-
 -- TPS
-RegisterCommand('tp', function(source, args)
-    local _source = source
-    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            if tonumber(args[1]) > 0 then
-                local targetPed = GetPlayerPed(args[1])
-                local ped = GetPlayerPed(_source)
-                local x,y,z = GetEntityCoords(targetPed)
-                SetEntityCoords(ped, x, y, z, false, false, false, false)
-            else
-                TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /tp [id].", 7000)
-            end
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
-        end
-    end)
-end)
 
 RegisterCommand('tptome', function(source, args)
     local _source = source
@@ -190,18 +117,6 @@ RegisterCommand('tptome', function(source, args)
             else
                 TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /tp [id].", 7000)
             end
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
-        end
-    end)
-end)
-
-
-RegisterCommand('tpw', function(source, args)
-    local _source = source
-    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            TriggerClientEvent('tpwaypoint', source)
         else
             TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
         end
