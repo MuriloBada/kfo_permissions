@@ -3,7 +3,7 @@ local hasJob
 RegisterCommand('addjob', function(source, args)
     local _source = source
     TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        if user.getGroup('superadmin') then
+        if exports.kfo_permissions.checkPlayerJob(_source, 'Admin', user.getIdentifier(), user.getSessionVar('charid')) then
             if args[1] and args[2] and args[3] then
                 local params = {
                     idplayer = tonumber(args[1]),
@@ -46,7 +46,7 @@ end)
 RegisterCommand('rmjob', function(source, args)
     local _source = source
     TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        if user.getGroup('superadmin') then
+        if exports.kfo_permissions.checkPlayerJob(_source, 'Admin', user.getIdentifier(), user.getSessionVar('charid')) then
             if args[1] and args[2] then
                 MySQL.Async.fetchAll('DELETE FROM kfo_permissions WHERE idplayer = @idplayer AND permission = @permission', {idplayer = tonumber(args[1]), permission = args[2]})
                 TriggerClientEvent('redem_roleplay:Tip', _source, 'ID: '..args[1]..' foi removido com sucesso do set '..args[2], 7000)
@@ -60,11 +60,6 @@ RegisterCommand('rmjob', function(source, args)
         end
     end)
 end)
-
-RegisterNetEvent('kfo_permissions:getSourceFromId')
-AddEventHandler('kfo_permissions:getSourceFromId', function()
-end)
-
 
 exports('checkPlayerJob', function(job, identifier, charid)
     local hasPerm = promise.new()
@@ -103,55 +98,55 @@ function getPlayerPermission(id, permission)
     })
 end
 
--- TPS
+-- TPS NOT WORKING YET
 
-RegisterCommand('tptome', function(source, args)
-    local _source = source
-    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            if tonumber(args[1]) > 0 then
-                local targetPed = GetPlayerPed(args[1])
-                local ped = GetPlayerPed(_source)
-                local x,y,z = GetEntityCoords(ped)
-                SetEntityCoords(targetPed, x, y, z, false, false, false, false)
-            else
-                TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /tp [id].", 7000)
-            end
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
-        end
-    end)
-end)
+-- RegisterCommand('tptome', function(source, args)
+--     local _source = source
+--     TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
+--         if user.getGroup() == 'superadmin' and _source ~= 0 then
+--             if tonumber(args[1]) > 0 then
+--                 local targetPed = GetPlayerPed(args[1])
+--                 local ped = GetPlayerPed(_source)
+--                 local x,y,z = GetEntityCoords(ped)
+--                 SetEntityCoords(targetPed, x, y, z, false, false, false, false)
+--             else
+--                 TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /tp [id].", 7000)
+--             end
+--         else
+--             TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+--         end
+--     end)
+-- end)
 
 
-RegisterCommand('tpcds', function(source, args)
-    local _source = source
-    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            local ped = GetPlayerPed(_source)
-            local x = args[1]
-            local y = args[2]
-            local z = args[3]
+-- RegisterCommand('tpcds', function(source, args)
+--     local _source = source
+--     TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
+--         if user.getGroup() == 'superadmin' and _source ~= 0 then
+--             local ped = GetPlayerPed(_source)
+--             local x = args[1]
+--             local y = args[2]
+--             local z = args[3]
 
-            SetEntityCoords(ped, x, y, z, false, false, false, false)
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
-        end
-    end)
-end)
+--             SetEntityCoords(ped, x, y, z, false, false, false, false)
+--         else
+--             TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+--         end
+--     end)
+-- end)
 
-RegisterCommand('tpcds,', function(source, args)
-    local _source = source
-    TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
-        if user.getGroup() == 'superadmin' and _source ~= 0 then
-            local ped = GetPlayerPed(_source)
-            local x = args[3]
-            local y = args[6]
-            local z = args[9]
+-- RegisterCommand('tpcds,', function(source, args)
+--     local _source = source
+--     TriggerEvent('redemrp:getPlayerFromId', _source, function(user)
+--         if user.getGroup() == 'superadmin' and _source ~= 0 then
+--             local ped = GetPlayerPed(_source)
+--             local x = args[3]
+--             local y = args[6]
+--             local z = args[9]
 
-            SetEntityCoords(ped, x, y, z, false, false, false, false)
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
-        end
-    end)
-end)
+--             SetEntityCoords(ped, x, y, z, false, false, false, false)
+--         else
+--             TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar este comando.", 7000)
+--         end
+--     end)
+-- end)
