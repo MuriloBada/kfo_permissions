@@ -98,6 +98,15 @@ function getPlayerPermission(id, permission)
     })
 end
 
+function getPlayerFullName(identifier, charid)
+    local obj = MySQL.Sync.fetchAll('SELECT * FROM CHARACTERS WHERE identifier=@identifier and characterid = @charid', {
+        ['identifier'] = identifier, 
+        ['charid'] = charid
+    })
+
+    return obj.firstname..' '..obj.lastname
+end
+
 -- TPS NOT WORKING YET
 
 -- RegisterCommand('tptome', function(source, args)
