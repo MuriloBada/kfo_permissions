@@ -104,7 +104,7 @@ function getPlayerFullName(identifier, charid)
         ['charid'] = charid
     })
 
-    return obj.firstname..' '..obj.lastname
+    return obj[1].firstname..' '..obj[1].lastname
 end
 
 -- TPS NOT WORKING YET
