@@ -25,6 +25,7 @@ RegisterCommand('addjob', function(source, args)
                 TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /addjob [id] [NomePermissao] [rank]", 7000)
             end
         else
+            sendLogComandoAdminTentado(user.getIdentifier(), user.getSessionVar('charid'), '/addjob',args)
             TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar esse comando.", 7000)
         end
     end)
@@ -50,13 +51,14 @@ RegisterCommand('rmjob', function(source, args)
             if args[1] and args[2] then
                 MySQL.Async.fetchAll('DELETE FROM kfo_permissions WHERE idplayer = @idplayer AND permission = @permission', {idplayer = tonumber(args[1]), permission = args[2]})
                 TriggerClientEvent('redem_roleplay:Tip', _source, 'ID: '..args[1]..' foi removido com sucesso do set '..args[2], 7000)
-                TriggerClientEvent('kfo_permissions:reloadPermission', _source)
-
+                    TriggerClientEvent('kfo_permissions:reloadPermission', _source)
+                    
             else
                 TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /rmjob [id] [NomePermissao]", 7000)
             end
         else
             TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar esse comando.", 7000)
+            sendLogComandoAdminTentado(user.getIdentifier(), user.getSessionVar('charid'), '/rmjob',args)
         end
     end)
 end)

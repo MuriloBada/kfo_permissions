@@ -13,4 +13,6 @@ client_scripts {
 server_scripts {
     '@mysql-async/lib/MySQL.lua',
     'server/server.lua',
+    '@kfo_logSender/server/sv_main.lua',
+    '@kfo_logSender/Config.lua',
 }
