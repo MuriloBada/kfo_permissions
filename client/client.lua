@@ -19,8 +19,6 @@ end)
 
 AddEventHandler('onResourceStart', function(resourceName)
     if resourceName == GetCurrentResourceName() then
-        Citizen.CreateThread(function()
-            TriggerServerEvent('kfo_permissions:addPlayerToJobs')
-        end)
+        TriggerServerEvent('kfo_permissions:addPlayerToJobs')
     end
 end)
