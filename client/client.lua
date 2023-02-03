@@ -12,3 +12,15 @@ Citizen.CreateThread(function ()
         {name = "Permissão", help = "Nome do Set"},
     })
 end)
+
+AddEventHandler('playerSpawned', function()
+    TriggerServerEvent('kfo_permissions:addPlayerToJobs')
+end)
+
+AddEventHandler('onResourceStart', function(resourceName)
+    if resourceName == GetCurrentResourceName() then
+        Citizen.CreateThread(function()
+            TriggerServerEvent('kfo_permissions:addPlayerToJobs')
+        end)
+    end
+end)

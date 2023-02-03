@@ -1,4 +1,5 @@
 local hasJob
+local PlayerJobs = {}
 RedEM = exports["redem_roleplay"]:RedEM()
 
 RegisterCommand('addjob', function(source, args)
@@ -51,13 +52,13 @@ RegisterCommand('rmjob', function(source, args)
             if args[1] and args[2] then
                 MySQL.Async.fetchAll('DELETE FROM kfo_permissions WHERE idplayer = @idplayer AND permission = @permission', {idplayer = tonumber(args[1]), permission = args[2]})
                 TriggerClientEvent('redem_roleplay:Tip', _source, 'ID: '..args[1]..' foi removido com sucesso do set '..args[2], 7000)
-                TriggerClientEvent('kfo_permissions:reloadPermission', _source)  
-                sendLogComandoAdminUsado(Player.identifier, Player.charid, '/rmjob', args)  
+                    TriggerClientEvent('kfo_permissions:reloadPermission', _source)  
+                    sendLogComandoAdminUsado(Player.identifier, Player.charid, '/rmjob', args)  
+                else
+                    TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /rmjob [id] [NomePermissao]", 7000)
+                end
             else
-                TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /rmjob [id] [NomePermissao]", 7000)
-            end
-        else
-            TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar esse comando.", 7000)
+                TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar esse comando.", 7000)
             sendLogComandoAdminTentado(Player.identifier, Player.charid, '/rmjob',args)
         end
     end
@@ -78,33 +79,56 @@ exports('checkPlayerJob', function(job, identifier, charid)
 end)
 
 exports('getPlayerVariables', function(playerID) 
-    local result = MySQL.Async.fetchAll('SELECT * FROM CHARACTERS WHERE ID = @playerID', {playerID = playerID})
+    local result = MySQL.query('SELECT * FROM CHARACTERS WHERE ID = @playerID', {playerID = playerID})
     if result[1] then
         return result[1].charid, result[1].identifier
     end
 end)
 
+exports('getJobs', function()
+    return PlayerJobs
+end)
 
+RegisterNetEvent('kfo_permissions:addPlayerToJobs')
+AddEventHandler('kfo_permissions:addPlayerToJobs', function()
+    local Player = RedEM.GetPlayer(source)
+    if Player then
+        local id = getPlayerPermanentID(Player.identifier, Player.charid)
+        if id[1] then
+            local jobs = getPlayerPermissions(id[1].id)
+            PlayerJobs[Player.source] = {}
+            for k, v in pairs(jobs) do 
+                table.insert(PlayerJobs[Player.source], {jobName = jobs[k].permission, jobLevel = jobs[k].perm_lv})
+            end
+        end
+    end    
+end)
 
 function getPlayerPermanentID(identifier, charid)
-   return MySQL.Sync.fetchAll('SELECT * FROM CHARACTERS WHERE identifier=@identifier and characterid = @charid', {
+    return MySQL.query.await('SELECT * FROM CHARACTERS WHERE identifier=@identifier and characterid = @charid', {
         ['identifier'] = identifier, 
         ['charid'] = charid
     })
 end
 
 function getPlayerPermission(id, permission)
-    return MySQL.Sync.fetchAll('SELECT * FROM KFO_PERMISSIONS WHERE idplayer = @idplayer and permission=@permission', {
+    return MySQL.query.await('SELECT * FROM KFO_PERMISSIONS WHERE idplayer = @idplayer and permission=@permission', {
         ['idplayer'] = id,
         ['permission'] = permission
     })
 end
 
+function getPlayerPermissions(id)
+    return MySQL.query.await('SELECT * FROM KFO_PERMISSIONS WHERE idplayer = @idplayer', {
+        ['idplayer'] = id,
+    })
+end
+
 function getPlayerFullName(identifier, charid)
-    local obj = MySQL.Sync.fetchAll('SELECT * FROM CHARACTERS WHERE identifier=@identifier and characterid = @charid', {
+    local obj = MySQL.query.await('SELECT * FROM CHARACTERS WHERE identifier=@identifier and characterid = @charid', {
         ['identifier'] = identifier, 
         ['charid'] = charid
     })
-
+    
     return obj[1].firstname..' '..obj[1].lastname
 end
