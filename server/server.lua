@@ -105,30 +105,38 @@ AddEventHandler('kfo_permissions:addPlayerToJobs', function()
 end)
 
 function getPlayerPermanentID(identifier, charid)
-    return MySQL.query.await('SELECT * FROM CHARACTERS WHERE identifier=@identifier and characterid = @charid', {
-        ['identifier'] = identifier, 
-        ['charid'] = charid
-    })
+    if MySQL ~= nil then
+        return MySQL.query.await('SELECT * FROM CHARACTERS WHERE identifier=@identifier and characterid = @charid', {
+            ['identifier'] = identifier, 
+            ['charid'] = charid
+        })
+    end
 end
 
 function getPlayerPermission(id, permission)
-    return MySQL.query.await('SELECT * FROM KFO_PERMISSIONS WHERE idplayer = @idplayer and permission=@permission', {
-        ['idplayer'] = id,
-        ['permission'] = permission
-    })
+    if MySQL ~= nil then
+        return MySQL.query.await('SELECT * FROM KFO_PERMISSIONS WHERE idplayer = @idplayer and permission=@permission', {
+            ['idplayer'] = id,
+            ['permission'] = permission
+        })
+    end
 end
 
 function getPlayerPermissions(id)
-    return MySQL.query.await('SELECT * FROM KFO_PERMISSIONS WHERE idplayer = @idplayer', {
-        ['idplayer'] = id,
-    })
+    if MySQL ~= nil then
+        return MySQL.query.await('SELECT * FROM KFO_PERMISSIONS WHERE idplayer = @idplayer', {
+            ['idplayer'] = id,
+        })
+    end
 end
 
 function getPlayerFullName(identifier, charid)
-    local obj = MySQL.query.await('SELECT * FROM CHARACTERS WHERE identifier=@identifier and characterid = @charid', {
-        ['identifier'] = identifier, 
-        ['charid'] = charid
-    })
-    
-    return obj[1].firstname..' '..obj[1].lastname
+    if MySQL ~= nil then
+        local obj = MySQL.query.await('SELECT * FROM CHARACTERS WHERE identifier=@identifier and characterid = @charid', {
+            ['identifier'] = identifier, 
+            ['charid'] = charid
+        })
+        
+        return obj[1].firstname..' '..obj[1].lastname
+    end
 end
