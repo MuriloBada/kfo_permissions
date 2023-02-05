@@ -94,11 +94,13 @@ AddEventHandler('kfo_permissions:addPlayerToJobs', function()
     local Player = RedEM.GetPlayer(source)
     if Player then
         local id = getPlayerPermanentID(Player.identifier, Player.charid)
-        if id[1] then
-            local jobs = getPlayerPermissions(id[1].id)
-            PlayerJobs[Player.source] = {}
-            for k, v in pairs(jobs) do 
-                table.insert(PlayerJobs[Player.source], {jobName = jobs[k].permission, jobLevel = jobs[k].perm_lv})
+        if id then
+            if id[1] then
+                local jobs = getPlayerPermissions(id[1].id)
+                PlayerJobs[Player.source] = {}
+                for k, v in pairs(jobs) do 
+                    table.insert(PlayerJobs[Player.source], {jobName = jobs[k].permission, jobLevel = jobs[k].perm_lv})
+                end
             end
         end
     end    
