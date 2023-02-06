@@ -13,6 +13,11 @@ Citizen.CreateThread(function ()
     })
 end)
 
+RegisterNetEvent('kfo_permissions:attPlayersJobs')
+AddEventHandler('kfo_permissions:attPlayersJobs', function()
+    TriggerServerEvent('kfo_permissions:addPlayerToJobs')
+end)
+
 AddEventHandler('playerSpawned', function()
     TriggerServerEvent('kfo_permissions:addPlayerToJobs')
 end)

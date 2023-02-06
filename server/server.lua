@@ -21,7 +21,7 @@ RegisterCommand('addjob', function(source, args)
                         TriggerClientEvent('redem_roleplay:Tip', Player.source, 'ID: '..args[1]..' setado com sucesso como '..args[2]..' rank '..args[3], 7000)
                     end
                     sendLogComandoAdminUsado(Player.identifier, Player.charid, '/addjob', args)
-                    TriggerClientEvent('kfo_permissions:reloadPermission', Player.source)
+                    TriggerClientEvent('kfo_permissions:attPlayersJobs', Player.source)
                 end)
                 
             else
@@ -48,17 +48,17 @@ end)
 RegisterCommand('rmjob', function(source, args)
     local Player = RedEM.GetPlayer(source)
     if Player then
-        if exports.kfo_permissions.checkPlayerJob(_source, 'Admin', Player.identifier, Player.charid) then
+        if exports.kfo_permissions.checkPlayerJob(Player.source, 'Admin', Player.identifier, Player.charid) then
             if args[1] and args[2] then
                 MySQL.Async.fetchAll('DELETE FROM kfo_permissions WHERE idplayer = @idplayer AND permission = @permission', {idplayer = tonumber(args[1]), permission = args[2]})
-                TriggerClientEvent('redem_roleplay:Tip', _source, 'ID: '..args[1]..' foi removido com sucesso do set '..args[2], 7000)
-                    TriggerClientEvent('kfo_permissions:reloadPermission', _source)  
-                    sendLogComandoAdminUsado(Player.identifier, Player.charid, '/rmjob', args)  
-                else
-                    TriggerClientEvent('redem_roleplay:Tip', _source, "Você deve usar /rmjob [id] [NomePermissao]", 7000)
-                end
+                TriggerClientEvent('redem_roleplay:Tip', Player.source, 'ID: '..args[1]..' foi removido com sucesso do set '..args[2], 7000)
+                TriggerClientEvent('kfo_permissions:attPlayersJobs', Player.source)
+                sendLogComandoAdminUsado(Player.identifier, Player.charid, '/rmjob', args)  
             else
-                TriggerClientEvent('redem_roleplay:Tip', _source, "Você não tem permissão para acessar esse comando.", 7000)
+                TriggerClientEvent('redem_roleplay:Tip', Player.source, "Você deve usar /rmjob [id] [NomePermissao]", 7000)
+            end
+        else
+            TriggerClientEvent('redem_roleplay:Tip', Player.source, "Você não tem permissão para acessar esse comando.", 7000)
             sendLogComandoAdminTentado(Player.identifier, Player.charid, '/rmjob',args)
         end
     end
