@@ -104,6 +104,7 @@ AddEventHandler('kfo_permissions:addPlayerToJobs', function()
             end
         end
         for k,v in pairs(PlayerJobs[Player.source]) do 
+            print(k,v)
             for i, j in pairs(v) do 
                 print(i,j)
             end
