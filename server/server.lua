@@ -104,7 +104,6 @@ AddEventHandler('kfo_permissions:addPlayerToJobs', function()
             end
         end
     end 
-    
 end)
 
 function getPlayerPermanentID(identifier, charid)
