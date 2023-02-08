@@ -98,7 +98,8 @@ AddEventHandler('kfo_permissions:addPlayerToJobs', function()
             if id[1] then
                 local jobs = getPlayerPermissions(id[1].id)
                 PlayerJobs[Player.source] = {}
-                for k, v in pairs(jobs) do 
+                for k, v in pairs(jobs) do
+                    print(Player.source..' '..jobs[k].permission) 
                     table.insert(PlayerJobs[Player.source], {jobName = jobs[k].permission, jobLevel = jobs[k].perm_lv})
                 end
             end
