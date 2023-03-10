@@ -27,6 +27,8 @@
 ## 4. Commands
 - ```/id``` - Gets the player fixed ID **no params**
 
+<hr>
+
 - ```/addjob``` - Add new / update a player job **3 params needed**
 
 | Order 	|      Param      	| Value Expected 	|                         Description                        	|
@@ -35,9 +37,13 @@
 |   2   	| Permission Name 	|     string     	| Permission name that you want to be applyed to that player 	|
 |   3   	| Permission Rank 	|     number     	|           Permission rank of the permission above          	|
 
+<hr>
+
 - ```/rmjob``` - Remove a permission from a player **2 params needed**
 
 | Order 	|      Param      	| Value Expected 	|                         Description                        	|
 |:-----:	|:---------------:	|:--------------:	|:----------------------------------------------------------:	|
 |   1   	|     Fixed ID    	|     number     	|           Fixed ID of the player returned by /id           	|
 |   2   	| Permission Name 	|     string     	| Permission name that you want to be applyed to that player 	|
+
+<hr>
