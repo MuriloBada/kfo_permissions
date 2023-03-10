@@ -1,5 +1,7 @@
 # KFO_PERMISSIONS - Registering and checking roles RedEM:RP 2023
 
+- SQL based checking role resource
+
 ## 1. Installation
 - 1° step - Clone this repository into your resources folder
 - 2° step - Add ```ensure kfo_permissions``` in server.cfg
