@@ -1,7 +1,5 @@
 # KFO_PERMISSIONS - Registering and checking roles RedEM:RP 2023
 
-- SQL based checking role resource
-
 ## 1. Installation
 - 1° step - Clone this repository into your resources folder
 - 2° step - Add ```ensure kfo_permissions``` in server.cfg
@@ -19,3 +17,27 @@
 |      2      	|   roleName   	| Name of the job you want to check must be quoted 	|      string      	|
 |      3      	|  identifier  	| usually Player.identifier on RedEM:RP 2023       	|      string      	|
 |      4      	|    charid    	| usually Player.charid on RedEM:RP 2023           	|      number      	|
+
+## Features
+- This resource basically control players permissions by a fixed id (that is the PK of redemrp ```characters``` table)
+- You can get players that are online by a jobName ```exports.kfo_permissions.getJobs()```
+- Supports multi role (the character can be the same time ex: Admin, Police and Doctor etc. if you want)
+- SQL based so it's aways up to date
+
+### Commands
+- ```/id``` - Gets the player fixed ID **no params**
+
+- ```/addjob``` - Add new / update a player job **3 params needed**
+
+| Order 	|      Param      	| Value Expected 	|                         Description                        	|
+|:-----:	|:---------------:	|:--------------:	|:----------------------------------------------------------:	|
+|   1   	|     Fixed ID    	|     number     	|           Fixed ID of the player returned by /id           	|
+|   2   	| Permission Name 	|     string     	| Permission name that you want to be applyed to that player 	|
+|   3   	| Permission Rank 	|     number     	|           Permission rank of the permission above          	|
+
+- ```/rmjob``` - Remove a permission from a player **2 params needed**
+
+| Order 	|      Param      	| Value Expected 	|                         Description                        	|
+|:-----:	|:---------------:	|:--------------:	|:----------------------------------------------------------:	|
+|   1   	|     Fixed ID    	|     number     	|           Fixed ID of the player returned by /id           	|
+|   2   	| Permission Name 	|     string     	| Permission name that you want to be applyed to that player 	|
