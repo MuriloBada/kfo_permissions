@@ -18,13 +18,13 @@
 |      3      	|  identifier  	| usually Player.identifier on RedEM:RP 2023       	|      string      	|
 |      4      	|    charid    	| usually Player.charid on RedEM:RP 2023           	|      number      	|
 
-## Features
+## 3. Features
 - This resource basically control players permissions by a fixed id (that is the PK of redemrp ```characters``` table)
 - You can get players that are online by a jobName ```exports.kfo_permissions.getJobs()```
 - Supports multi role (the character can be the same time ex: Admin, Police and Doctor etc. if you want)
 - SQL based so it's aways up to date
 
-### Commands
+## 4. Commands
 - ```/id``` - Gets the player fixed ID **no params**
 
 - ```/addjob``` - Add new / update a player job **3 params needed**
